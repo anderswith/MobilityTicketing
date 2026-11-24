@@ -75,12 +75,12 @@ function search(cityId, fromStopId, toStopId, start, end) {
 //Test 1: Starttidspunktet er inkluderet ($gte).
 // Vi tester, at en afgang præcis kl. 06:20 bliver fundet.
 // Forventet resultat: LAB05-T-OK.
-
+/*
 const start = ISODate("2026-10-02T06:20:00Z");
 const end = ISODate("2026-10-02T07:00:00Z");
 
 printjson(search("CPH", "STOP-NORREPORT", "STOP-AIRPORT", start, end))
-
+*/
 
 /*
 //Test 2: Omvendt rejseretning.
@@ -124,3 +124,49 @@ const end = ISODate("2026-10-02T07:00:00Z");
 
 printjson(search("CPH", "", "STOP-AIRPORT", start, end));
 */
+
+//Test 6: Annulleret afgang.
+// Tester at en annulleret afgang ikke længere returneres.
+// Forventet resultat: [].
+/* 
+const start = ISODate("2026-10-02T06:00:00Z");
+const end = ISODate("2026-10-02T07:00:00Z");
+
+printjson(search("CPH", "STOP-NORREPORT", "STOP-AIRPORT", start, end));
+*/
+
+/*
+const start = ISODate("2026-10-02T06:00:00Z");
+const end = ISODate("2026-10-02T07:00:00Z");
+
+// Tester Nørreport til Airport.
+// Forventet: LAB05-T-OK returneres ikke.
+print("Norreport to Airport:");
+printjson(search("CPH", "STOP-NORREPORT", "STOP-AIRPORT", start, end));
+
+// Tester Nørreport til Central.
+// Forventet: LAB05-T-OK returneres stadig.
+print("Norreport to Central:");
+printjson(search("CPH", "STOP-NORREPORT", "STOP-CENTRAL", start, end));
+*/
+
+
+{
+    // Tester det oprindelige tidsinterval.
+    // Forventet: LAB05-T-OK returneres ikke.
+    const start = ISODate("2026-10-02T06:00:00Z");
+    const end = ISODate("2026-10-02T07:00:00Z");
+
+    print("Original time interval:");
+    printjson(search("CPH", "STOP-NORREPORT", "STOP-AIRPORT", start, end));
+}
+
+{
+    // Tester det nye tidsinterval.
+    // Forventet: LAB05-T-OK returneres med de nye tidspunkter.
+    const start = ISODate("2026-10-02T07:00:00Z");
+    const end = ISODate("2026-10-02T08:00:00Z");
+
+    print("New time interval:");
+    printjson(search("CPH", "STOP-NORREPORT", "STOP-AIRPORT", start, end));
+}
