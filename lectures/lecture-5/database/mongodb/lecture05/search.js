@@ -150,7 +150,7 @@ print("Norreport to Central:");
 printjson(search("CPH", "STOP-NORREPORT", "STOP-CENTRAL", start, end));
 */
 
-
+/*
 {
     // Tester det oprindelige tidsinterval.
     // Forventet: LAB05-T-OK returneres ikke.
@@ -169,4 +169,39 @@ printjson(search("CPH", "STOP-NORREPORT", "STOP-CENTRAL", start, end));
 
     print("New time interval:");
     printjson(search("CPH", "STOP-NORREPORT", "STOP-AIRPORT", start, end));
+}
+*/
+
+
+{
+    const start = ISODate("2026-10-02T06:00:00Z");
+    const end = ISODate("2026-10-02T07:00:00Z");
+
+    // Test 1: Normal rejsesøgning.
+    print("Test 1:");
+    printjson(search("CPH", "STOP-NORREPORT", "STOP-AIRPORT", start, end));
+
+    // Test 2: Sluttidspunktet er eksklusivt.
+    print("Test 2:");
+    printjson(search("CPH", "STOP-NORREPORT", "STOP-AIRPORT",
+        start, ISODate("2026-10-02T06:20:00Z")));
+
+    // Test 3: Starttidspunktet er inkluderet.
+    print("Test 3:");
+    printjson(search("CPH", "STOP-NORREPORT", "STOP-AIRPORT",
+        ISODate("2026-10-02T06:20:00Z"), end));
+
+    // Test 4: Omvendt rejseretning.
+    print("Test 4:");
+    printjson(search("CPH", "STOP-AIRPORT", "STOP-NORREPORT", start, end));
+
+    // Test 5: Søgning på en anden dato.
+    print("Test 5:");
+    printjson(search("CPH", "STOP-NORREPORT", "STOP-AIRPORT",
+        ISODate("2026-10-03T06:00:00Z"),
+        ISODate("2026-10-03T07:00:00Z")));
+
+    // Test 6: Destination uden match.
+    print("Test 6:");
+    printjson(search("CPH", "STOP-NORREPORT", "STOP-NO-MATCH", start, end));
 }
